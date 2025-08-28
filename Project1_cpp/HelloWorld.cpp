@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+//#include <stdio.h>
+//#include <string.h>
 
 #include <Ishtar/Thread.h>
 #include <Ishtar/Task/TaskFwd.h>
@@ -133,7 +135,36 @@ void testAddTemplate()
     std::cout << add(2.5, 3.5) << std::endl;  // 6.0
 }
 
+void testStrcpy() {
 
+    char source[] = "Hello, World!";
+    char destination[20];
+    char result[40];
+
+    // 複製 source 到 destination
+    strcpy_s(destination, source);
+    printf("Destination: %s\n", destination);
+
+    // 複製 destination 到 result，然後串接另一個字串
+    strcpy_s(result, destination);
+    strcat_s(result, " C Programming");
+    printf("Result: %s\n", result);
+
+    // 考慮緩衝區溢位 (Buffer Overflow) 的狀況
+    char buffer1[5];
+    char buffer2[10];
+
+    //strcpy_s(buffer1, "This is too long!"); // 會被中斷 _RETURN_BUFFER_TOO_SMALL
+    //printf("Buffer1: %s\n", buffer1); // 輸出結果可能不穩定 
+
+    strcpy_s(buffer2, "short");
+    printf("Buffer2: %s\n", buffer2);
+
+    // 試圖將一個長字串複製到一個小緩衝區
+	//strcpy_s(buffer2, "very long string!"); // 會被中斷 _RETURN_BUFFER_TOO_SMALL
+    printf("Buffer2 again: %s\n", buffer2); // 輸出結果可能不穩定
+
+}
 
 // Vector
 void testVector()
@@ -1897,6 +1928,7 @@ int main()
     //testVector(); // 測試 vector 的容量和大小
     //testMultipleInheritanceSameFuncName();
     //testAddTemplate(); // 
+    testStrcpy(); //
 
     // ===================================================== //
     // ================ ISHTAR Multi Thread ================ //
